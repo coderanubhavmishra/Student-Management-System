@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Pencil, Eye, Trash2 } from "lucide-react";
+
 import { getAllStudents } from "../services/studentService";
 
 function Students() {
   const [students, setStudents] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     loadStudents();
@@ -32,6 +36,7 @@ function Students() {
               <th className="p-3">Email</th>
               <th className="p-3">Course</th>
               <th className="p-3">Mobile</th>
+              <th className="p-3">Actions</th>
             </tr>
           </thead>
 
@@ -43,6 +48,35 @@ function Students() {
                 <td className="p-3">{student.email}</td>
                 <td className="p-3">{student.course}</td>
                 <td className="p-3">{student.mobile}</td>
+
+                <td className="p-3">
+                  <div className="flex justify-center gap-2">
+
+                    <button
+                      onClick={() => navigate(`/view-student/${student.id}`)}
+                      className="bg-green-500 text-white p-2 rounded hover:bg-green-600"
+                      title="View Student"
+                    >
+                      <Eye size={18} />
+                    </button>
+
+                    <button
+                      onClick={() => navigate(`/edit-student/${student.id}`)}
+                      className="bg-yellow-500 text-white p-2 rounded hover:bg-yellow-600"
+                      title="Edit Student"
+                    >
+                      <Pencil size={18} />
+                    </button>
+
+                    <button
+                      className="bg-red-500 text-white p-2 rounded hover:bg-red-600"
+                      title="Delete Student"
+                    >
+                      <Trash2 size={18} />
+                    </button>
+
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
