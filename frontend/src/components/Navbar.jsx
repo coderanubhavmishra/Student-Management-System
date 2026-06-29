@@ -5,10 +5,18 @@ function Navbar() {
 
     const navigate = useNavigate();
 
+    const role = localStorage.getItem("role");
+
     const handleLogout = () => {
+
         localStorage.removeItem("token");
+        localStorage.removeItem("username");
+        localStorage.removeItem("role");
+
         toast.success("Logged out successfully");
+
         navigate("/login");
+
     };
 
     const navLinkClass = ({ isActive }) =>
@@ -19,6 +27,7 @@ function Navbar() {
         }`;
 
     return (
+
         <nav className="bg-blue-600 shadow-lg sticky top-0 z-50">
 
             <div className="max-w-7xl mx-auto px-6 py-4 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -45,11 +54,29 @@ function Navbar() {
                     </NavLink>
 
                     <NavLink
+                        to="/courses"
+                        className={navLinkClass}
+                    >
+                        Courses
+                    </NavLink>
+
+                    <NavLink
                         to="/add-student"
                         className={navLinkClass}
                     >
                         Add Student
                     </NavLink>
+
+                    {role === "ROLE_SUPER_ADMIN" && (
+
+                        <NavLink
+                            to="/admin-management"
+                            className={navLinkClass}
+                        >
+                            Admin Management
+                        </NavLink>
+
+                    )}
 
                     <button
                         onClick={handleLogout}
@@ -63,6 +90,7 @@ function Navbar() {
             </div>
 
         </nav>
+
     );
 }
 

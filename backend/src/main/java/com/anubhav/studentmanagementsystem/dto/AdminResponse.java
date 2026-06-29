@@ -1,26 +1,26 @@
 package com.anubhav.studentmanagementsystem.dto;
 
-public class LoginResponse {
+public class AdminResponse {
 
-    private String token;
+    private Long id;
     private String username;
     private String role;
 
-    public LoginResponse() {
+    public AdminResponse() {
     }
 
-    public LoginResponse(String token, String username, String role) {
-        this.token = token;
+    public AdminResponse(Long id, String username, String role) {
+        this.id = id;
         this.username = username;
         this.role = role;
     }
 
-    public String getToken() {
-        return token;
+    public Long getId() {
+        return id;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getUsername() {

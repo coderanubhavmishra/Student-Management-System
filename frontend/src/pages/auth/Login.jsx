@@ -27,6 +27,8 @@ function Login() {
             const response = await login(credentials);
 
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("username", response.data.username);
+            localStorage.setItem("role", response.data.role);
 
             toast.success("Login Successful!");
 

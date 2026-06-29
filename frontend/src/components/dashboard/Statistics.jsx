@@ -5,9 +5,12 @@ import {
   Phone,
 } from "lucide-react";
 
+import { useNavigate } from "react-router-dom";
 import DashboardCard from "./DashboardCard";
 
 function Statistics({ students }) {
+
+  const navigate = useNavigate();
 
   const totalStudents = students.length;
 
@@ -24,6 +27,7 @@ function Statistics({ students }) {
         value={totalStudents}
         icon={<Users size={28} />}
         color="bg-blue-600"
+        onClick={() => navigate("/students")}
       />
 
       <DashboardCard
@@ -31,6 +35,7 @@ function Statistics({ students }) {
         value={totalCourses}
         icon={<GraduationCap size={28} />}
         color="bg-green-600"
+        onClick={() => navigate("/courses")}
       />
 
       <DashboardCard

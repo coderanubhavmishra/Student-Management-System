@@ -84,7 +84,14 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
-                        .anyRequest().authenticated()
+
+                        // Only Super Admin can manage admins
+                        .requestMatchers("/admins/**")
+                        .hasRole("SUPER_ADMIN")
+
+                        // All authenticated users can access everything else
+                        .anyRequest()
+                        .authenticated()
                 )
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(

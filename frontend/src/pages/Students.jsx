@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Pencil, Eye, Trash2 } from "lucide-react";
 import { toast } from "react-toastify";
 
@@ -12,6 +12,7 @@ import {
 
 function Students() {
   const [students, setStudents] = useState([]);
+  const [allStudents, setAllStudents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [search, setSearch] = useState("");
@@ -23,10 +24,12 @@ function Students() {
   const studentsPerPage = 5;
 
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
+  const selectedCourse = searchParams.get("course");
   useEffect(() => {
     loadStudents();
-  }, [currentPage, search, sortBy]);
+  }, [currentPage, search, sortBy, selectedCourse]);
 
   const loadStudents = async () => {
     setLoading(true);
@@ -39,7 +42,21 @@ function Students() {
         sortBy
       );
 
-      setStudents(response.data.content);
+      setAllStudents(response.data.content);
+
+      if (selectedCourse) {
+
+          const filtered = response.data.content.filter(
+              student => student.course === selectedCourse
+          );
+
+          setStudents(filtered);
+
+      } else {
+
+          setStudents(response.data.content);
+
+      }
       setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error(error);
@@ -92,6 +109,31 @@ function Students() {
         </h1>
 
         <Statistics students={students} />
+        {selectedCourse && (
+
+            <div className="mb-4 flex items-center justify-between bg-blue-50 border border-blue-200 rounded-lg p-4">
+
+                <div>
+
+                    <span className="font-semibold">
+                        Showing students from:
+                    </span>{" "}
+                    <span className="text-blue-700 font-bold">
+                        {selectedCourse}
+                    </span>
+
+                </div>
+
+                <button
+                    onClick={() => navigate("/students")}
+                    className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                >
+                    Clear Filter
+                </button>
+
+            </div>
+
+        )}
 
         {/* Search + Sort + Add Student */}
 

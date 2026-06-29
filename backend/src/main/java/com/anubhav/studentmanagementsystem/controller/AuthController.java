@@ -1,5 +1,6 @@
 package com.anubhav.studentmanagementsystem.controller;
-
+import com.anubhav.studentmanagementsystem.entity.User;
+import com.anubhav.studentmanagementsystem.repository.UserRepository;
 import com.anubhav.studentmanagementsystem.dto.LoginRequest;
 import com.anubhav.studentmanagementsystem.dto.LoginResponse;
 import com.anubhav.studentmanagementsystem.security.JwtService;
@@ -14,13 +15,16 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
+    private final UserRepository userRepository;
 
     public AuthController(
             AuthenticationManager authenticationManager,
-            JwtService jwtService) {
+            JwtService jwtService,
+            UserRepository userRepository) {
 
         this.authenticationManager = authenticationManager;
         this.jwtService = jwtService;
+        this.userRepository = userRepository;
     }
 
     @PostMapping("/login")
@@ -33,8 +37,15 @@ public class AuthController {
                 )
         );
 
-        String token = jwtService.generateToken(request.getUsername());
+        User user = userRepository.findByUsername(request.getUsername())
+                .orElseThrow();
 
-        return new LoginResponse(token);
+        String token = jwtService.generateToken(user.getUsername());
+
+        return new LoginResponse(
+                token,
+                user.getUsername(),
+                user.getRole()
+        );
     }
 }

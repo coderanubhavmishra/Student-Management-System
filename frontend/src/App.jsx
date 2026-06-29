@@ -7,11 +7,12 @@ import EditStudent from "./pages/EditStudent";
 import ViewStudent from "./pages/ViewStudent";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/auth/Login";
-
+import Courses from "./pages/Courses";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
-
+import AdminManagement from "./pages/AdminManagement";
+import AddAdmin from "./pages/AddAdmin";
 function AppContent() {
   const location = useLocation();
 
@@ -41,6 +42,14 @@ function AppContent() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/courses"
+          element={
+            <ProtectedRoute>
+              <Courses />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/add-student"
@@ -67,6 +76,22 @@ function AppContent() {
               <ViewStudent />
             </ProtectedRoute>
           }
+        />
+        <Route
+            path="/admin-management"
+            element={
+                <ProtectedRoute>
+                    <AdminManagement />
+                </ProtectedRoute>
+            }
+        />
+        <Route
+            path="/add-admin"
+            element={
+                <ProtectedRoute>
+                    <AddAdmin />
+                </ProtectedRoute>
+            }
         />
 
         <Route path="*" element={<NotFound />} />
