@@ -6,6 +6,10 @@ import com.anubhav.studentmanagementsystem.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 import com.anubhav.studentmanagementsystem.dto.StudentRequest;
 import com.anubhav.studentmanagementsystem.dto.StudentResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -39,12 +43,32 @@ public class StudentService {
         return response;
     }
 
-    // Get All Students
-    public List<StudentResponse> getAllStudents() {
+    public Page<StudentResponse> getAllStudents(
+            int page,
+            int size,
+            String search,
+            String sortBy) {
 
-        List<Student> students = studentRepository.findAll();
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
 
-        return students.stream().map(student -> {
+        Page<Student> students;
+
+        if (search == null || search.isBlank()) {
+
+            students = studentRepository.findAll(pageable);
+
+        } else {
+
+            students = studentRepository
+                    .findByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrCourseContainingIgnoreCase(
+                            search,
+                            search,
+                            search,
+                            pageable
+                    );
+        }
+
+        return students.map(student -> {
 
             StudentResponse response = new StudentResponse();
 
@@ -55,8 +79,7 @@ public class StudentService {
             response.setMobile(student.getMobile());
 
             return response;
-
-        }).toList();
+        });
     }
     public StudentResponse getStudentById(Long id) {
 

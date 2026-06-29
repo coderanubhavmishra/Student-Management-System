@@ -5,7 +5,7 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 import com.anubhav.studentmanagementsystem.dto.StudentRequest;
 import com.anubhav.studentmanagementsystem.dto.StudentResponse;
-
+import org.springframework.data.domain.Page;
 import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -27,8 +27,18 @@ public class StudentController {
 
     // Get All Students
     @GetMapping
-    public List<StudentResponse> getAllStudents() {
-        return studentService.getAllStudents();
+    public Page<StudentResponse> getAllStudents(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "") String search,
+            @RequestParam(defaultValue = "id") String sortBy) {
+
+        return studentService.getAllStudents(
+                page,
+                size,
+                search,
+                sortBy
+        );
     }
     @GetMapping("/{id}")
     public StudentResponse getStudentById(@PathVariable Long id) {

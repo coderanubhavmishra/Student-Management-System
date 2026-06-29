@@ -7,6 +7,9 @@ function StudentForm({
     buttonText
 }) {
 
+    const formTitle =
+        buttonText.includes("Update") ? "Update Student" : "Add Student";
+
     return (
 
         <div className="min-h-screen bg-gray-100 flex justify-center items-center">
@@ -14,7 +17,7 @@ function StudentForm({
             <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md">
 
                 <h2 className="text-3xl font-bold mb-6 text-center">
-                    {buttonText}
+                    {formTitle}
                 </h2>
 
                 <form onSubmit={onSubmit} className="space-y-4">
@@ -64,15 +67,16 @@ function StudentForm({
                         <button
                             type="submit"
                             disabled={loading}
-                            className="flex-1 bg-blue-600 text-white p-3 rounded hover:bg-blue-700 disabled:bg-gray-400"
+                            className="flex-1 bg-blue-600 text-white p-3 rounded hover:bg-blue-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                         >
                             {loading ? "Saving..." : buttonText}
                         </button>
 
                         <button
                             type="button"
+                            disabled={loading}
                             onClick={onCancel}
-                            className="flex-1 bg-gray-500 text-white p-3 rounded hover:bg-gray-600"
+                            className="flex-1 bg-gray-500 text-white p-3 rounded hover:bg-gray-600 transition disabled:bg-gray-400 disabled:cursor-not-allowed"
                         >
                             Cancel
                         </button>

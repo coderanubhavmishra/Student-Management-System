@@ -1,17 +1,23 @@
-import axios from "axios";
+import api from "./api";
 
-const API_URL = "http://localhost:8080/students";
-
-export const getAllStudents = () => axios.get(API_URL);
+export const getAllStudents = (
+    page = 0,
+    size = 5,
+    search = "",
+    sortBy = "id"
+) =>
+    api.get(
+        `/students?page=${page}&size=${size}&search=${encodeURIComponent(search)}&sortBy=${sortBy}`
+    );
 
 export const getStudentById = (id) =>
-  axios.get(`${API_URL}/${id}`);
+    api.get(`/students/${id}`);
 
 export const addStudent = (student) =>
-  axios.post(API_URL, student);
+    api.post("/students", student);
 
 export const updateStudent = (id, student) =>
-  axios.put(`${API_URL}/${id}`, student);
+    api.put(`/students/${id}`, student);
 
 export const deleteStudent = (id) =>
-  axios.delete(`${API_URL}/${id}`);
+    api.delete(`/students/${id}`);

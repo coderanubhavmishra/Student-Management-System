@@ -1,8 +1,16 @@
 package com.anubhav.studentmanagementsystem.repository;
 
 import com.anubhav.studentmanagementsystem.entity.Student;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
+    Page<Student> findByNameContainingIgnoreCaseOrEmailContainingIgnoreCaseOrCourseContainingIgnoreCase(
+            String name,
+            String email,
+            String course,
+            Pageable pageable
+    );
 }

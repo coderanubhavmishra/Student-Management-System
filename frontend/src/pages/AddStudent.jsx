@@ -31,13 +31,21 @@ function AddStudent() {
 
         try {
             await addStudent(student);
+
             toast.success("Student added successfully!");
+
             navigate("/students");
+
         } catch (error) {
+
             console.error(error);
+
             toast.error("Failed to add student!");
+
         } finally {
+
             setLoading(false);
+
         }
     };
 
@@ -48,7 +56,7 @@ function AddStudent() {
             onChange={handleChange}
             onSubmit={handleSubmit}
             onCancel={() => navigate("/students")}
-            buttonText="Save Student"
+            buttonText={loading ? "Saving..." : "Save Student"}
         />
     );
 }
